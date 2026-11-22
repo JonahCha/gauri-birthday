@@ -22,6 +22,7 @@
     .envelope { font-size:90px; cursor:pointer; animation:bob 2.4s ease-in-out infinite; filter:drop-shadow(0 0 20px rgba(255,107,154,.6)); user-select:none; }
     @keyframes bob { 50% { transform:translateY(-14px) rotate(-4deg); } }
     #intro p { font-style:italic; font-size:1.1rem; opacity:.85; }
+    #countdown { color:var(--gold); min-height:1.5em; letter-spacing:.04em; }
 
     .btn { padding:14px 32px; border:none; border-radius:999px; cursor:pointer; background:linear-gradient(135deg,var(--rose),var(--gold)); color:var(--night); font:600 1.05rem 'Playfair Display',serif; box-shadow:0 10px 30px rgba(255,107,154,.35); transition:transform .2s; }
     .btn:hover { transform:scale(1.05); }
@@ -102,6 +103,7 @@
   <div id="intro">
     <div class="envelope" id="envelope" role="button" aria-label="Open your surprise">💌</div>
     <p>There's a little something waiting for you…</p>
+    <p id="countdown"></p>
     <button class="btn" id="openBtn">Open your surprise</button>
   </div>
 
@@ -182,6 +184,9 @@
     /* ==========================================================
        CUSTOMISE HERE
        ========================================================== */
+
+    const BIRTHDAY = "2026-11-26T00:00:00+05:30";
+    const LOCK_ENABLED = true;
 
     const PHOTOS = [
       { src: "photos/photo1.jpg", caption: "Radiant as always" },
@@ -307,17 +312,39 @@
 
     // Intro
     const intro = document.getElementById("intro");
+    const openBtn = document.getElementById("openBtn");
+    const envelope = document.getElementById("envelope");
     const music = document.getElementById("backgroundMusic");
+    const countdown = document.getElementById("countdown");
     music.volume = 0.35;
 
+    function updateCountdown() {
+      const remaining = new Date(BIRTHDAY).getTime() - Date.now();
+      if (!LOCK_ENABLED || remaining <= 0) {
+        countdown.textContent = "The surprise is ready!";
+        openBtn.disabled = false;
+        return;
+      }
+
+      const days = Math.floor(remaining / 86400000);
+      const hours = Math.floor((remaining % 86400000) / 3600000);
+      const minutes = Math.floor((remaining % 3600000) / 60000);
+      const seconds = Math.floor((remaining % 60000) / 1000);
+      countdown.textContent = `Opens in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+      openBtn.disabled = true;
+    }
+
     function openSurprise() {
+      if (LOCK_ENABLED && Date.now() < new Date(BIRTHDAY).getTime()) return;
       intro.classList.add("hide");
       music.muted = false;
       music.play().catch(error => console.error("Background music could not be played:", error));
       burst(160);
     }
-    document.getElementById("openBtn").addEventListener("click", openSurprise);
-    document.getElementById("envelope").addEventListener("click", openSurprise);
+    openBtn.addEventListener("click", openSurprise);
+    envelope.addEventListener("click", openSurprise);
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 
     /* ---------- Planner ---------- */
     const plannerEl = document.getElementById("planner");

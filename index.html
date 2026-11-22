@@ -22,6 +22,7 @@
     #intro.hide { opacity:0; visibility:hidden; }
     .envelope { font-size:90px; cursor:pointer; animation:bob 2.4s ease-in-out infinite; filter:drop-shadow(0 0 20px rgba(255,107,154,.6)); user-select:none; }
     @keyframes bob { 50% { transform:translateY(-12px) rotate(-4deg); } }
+    #countdown { color:var(--gold); min-height:1.5em; letter-spacing:.04em; }
     .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:14px 28px; border:none; border-radius:999px; background:linear-gradient(135deg,var(--rose),var(--gold)); color:var(--night); font-weight:600; box-shadow:0 10px 30px rgba(255,107,154,.35); text-decoration:none; transition:transform .2s; }
     .btn:hover:not(:disabled) { transform:scale(1.04); }
     .btn:disabled { cursor:not-allowed; opacity:.45; filter:grayscale(.35); }
@@ -108,6 +109,7 @@
   <div id="intro">
     <div class="envelope" id="envelope" role="button" aria-label="Open your surprise">💌</div>
     <p>There's a little something waiting for you…</p>
+    <p id="countdown"></p>
     <button class="btn" id="openBtn">Open your surprise</button>
   </div>
   <audio id="backgroundMusic" loop preload="auto" autoplay muted>
@@ -203,7 +205,7 @@
        CUSTOMISE HERE
        ========================================================== */
     const BIRTHDAY = "2026-11-26T00:00:00+05:30";
-    const LOCK_ENABLED = false;
+    const LOCK_ENABLED = true;
     const WHATSAPP_NUMBER = "919689490943";
     const SCRATCH_MESSAGE = "Your birthday wish is closer than you think — and I can't wait to celebrate you! ✨";
 
@@ -328,7 +330,24 @@
     const openBtn = document.getElementById("openBtn");
     const envelope = document.getElementById("envelope");
     const music = document.getElementById("backgroundMusic");
+    const countdown = document.getElementById("countdown");
     music.volume = 0.35;
+
+    function updateCountdown() {
+      const remaining = new Date(BIRTHDAY).getTime() - Date.now();
+      if (!LOCK_ENABLED || remaining <= 0) {
+        countdown.textContent = "The surprise is ready!";
+        openBtn.disabled = false;
+        return;
+      }
+
+      const days = Math.floor(remaining / 86400000);
+      const hours = Math.floor((remaining % 86400000) / 3600000);
+      const minutes = Math.floor((remaining % 3600000) / 60000);
+      const seconds = Math.floor((remaining % 60000) / 1000);
+      countdown.textContent = `Opens in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+      openBtn.disabled = true;
+    }
 
     function openSurprise() {
       if (LOCK_ENABLED && Date.now() < new Date(BIRTHDAY).getTime()) return;
@@ -339,6 +358,8 @@
     }
     openBtn.addEventListener("click",openSurprise);
     envelope.addEventListener("click",openSurprise);
+    updateCountdown();
+    setInterval(updateCountdown,1000);
 
     // Scratch card
     document.getElementById("scratchMessage").textContent = SCRATCH_MESSAGE;
