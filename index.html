@@ -125,7 +125,32 @@
     <!-- GALLERY -->
     <section>
       <h2>Our moments</h2>
-      <div class="gallery" id="gallery"></div>
+      <div class="gallery" id="gallery">
+        <div class="photo">
+          <img src="./photos/photo1.jpg?v=20261122" alt="Radiant as always" loading="eager" decoding="sync" />
+          <div class="cap">Radiant as always</div>
+        </div>
+        <div class="photo">
+          <img src="./photos/photo2.jpg?v=20261122" alt="Sparkle queen" loading="eager" decoding="sync" />
+          <div class="cap">Sparkle queen</div>
+        </div>
+        <div class="photo">
+          <img src="./photos/photo3.jpg?v=20261122" alt="Elegant evenings" loading="eager" decoding="sync" />
+          <div class="cap">Elegant evenings</div>
+        </div>
+        <div class="photo">
+          <img src="./photos/photo4.jpg?v=20261122" alt="Pure grace" loading="eager" decoding="sync" />
+          <div class="cap">Pure grace</div>
+        </div>
+        <div class="photo">
+          <img src="./photos/photo5.jpg?v=20261122" alt="Sweet moments" loading="eager" decoding="sync" />
+          <div class="cap">Sweet moments</div>
+        </div>
+        <div class="photo">
+          <img src="./photos/photo6.jpg?v=20261122" alt="Lost in thought, always lovely" loading="eager" decoding="sync" />
+          <div class="cap">Lost in thought, always lovely</div>
+        </div>
+      </div>
     </section>
 
     <!-- LETTER -->
@@ -272,20 +297,6 @@
       h.style.animationDelay = -Math.random() * 15 + "s";
       heartBg.appendChild(h);
     }
-
-    // Gallery
-    const gallery = document.getElementById("gallery");
-    PHOTOS.forEach(p => {
-      const card = document.createElement("div");
-      card.className = "photo";
-      const img = document.createElement("img");
-      img.src = p.src; img.alt = p.caption;
-      img.onerror = () => { img.style.display = "none"; };
-      const cap = document.createElement("div");
-      cap.className = "cap"; cap.textContent = p.caption;
-      card.append(img, cap);
-      gallery.appendChild(card);
-    });
 
     // Quotes
     const quoteEl = document.getElementById("quote");
