@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday, Gauri 💖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root { --rose:#ff6b9a; --gold:#f7c873; --cream:#fff4ef; --night:#12050c; --card:rgba(255,255,255,0.06); }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Playfair Display',Georgia,serif; background:radial-gradient(circle at 50% 0%,#4a1238 0%,var(--night) 70%); color:var(--cream); min-height:100vh; overflow-x:hidden; }
+
+    .heart-bg { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+    .heart-bg span { position:absolute; bottom:-40px; color:var(--rose); opacity:.35; animation:rise linear infinite; }
+    @keyframes rise { to { transform:translateY(-115vh) rotate(360deg); } }
+
+    #intro { position:fixed; inset:0; z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; text-align:center; padding:24px; background:var(--night); transition:opacity .8s ease, visibility .8s; }
+    #intro.hide { opacity:0; visibility:hidden; }
+    .envelope { font-size:90px; cursor:pointer; animation:bob 2.4s ease-in-out infinite; filter:drop-shadow(0 0 20px rgba(255,107,154,.6)); user-select:none; }
+    @keyframes bob { 50% { transform:translateY(-14px) rotate(-4deg); } }
+    #intro p { font-style:italic; font-size:1.1rem; opacity:.85; }
+
+    .btn { padding:14px 32px; border:none; border-radius:999px; cursor:pointer; background:linear-gradient(135deg,var(--rose),var(--gold)); color:var(--night); font:600 1.05rem 'Playfair Display',serif; box-shadow:0 10px 30px rgba(255,107,154,.35); transition:transform .2s; }
+    .btn:hover { transform:scale(1.05); }
+    .btn.ghost { background:none; color:var(--gold); border:1px solid rgba(247,200,115,.5); box-shadow:none; }
+
+    main { position:relative; z-index:1; }
+    section { padding:80px 20px; text-align:center; }
+    h2 { font-family:'Dancing Script',cursive; font-size:clamp(2.2rem,7vw,3.4rem); color:var(--gold); margin-bottom:12px; }
+    .lead { opacity:.8; font-style:italic; margin-bottom:30px; }
+
+    .hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+    .hero h1 { font-family:'Dancing Script',cursive; font-size:clamp(3.2rem,11vw,7rem); line-height:1.1; background:linear-gradient(120deg,var(--rose),var(--gold),var(--rose)); background-size:200% auto; -webkit-background-clip:text; background-clip:text; color:transparent; animation:shine 4s linear infinite; }
+    @keyframes shine { to { background-position:200% center; } }
+    .hero .sub { margin-top:16px; font-size:clamp(1.1rem,3vw,1.4rem); letter-spacing:.08em; }
+    .scroll-hint { margin-top:48px; font-size:.9rem; opacity:.6; animation:bob 2s infinite; }
+
+    .quote-box { max-width:680px; margin:0 auto; padding:40px 28px; border:1px solid rgba(247,200,115,.35); border-radius:24px; background:var(--card); }
+    #quote { font-size:clamp(1.2rem,3.5vw,1.6rem); font-style:italic; line-height:1.6; transition:opacity .6s; min-height:6em; display:flex; align-items:center; justify-content:center; }
+    #quote.fade { opacity:0; }
+
+    .gallery { display:grid; gap:18px; max-width:1000px; margin:0 auto; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+    .photo { position:relative; border-radius:20px; overflow:hidden; aspect-ratio:3/4; background:linear-gradient(135deg,#7a2350,#2e0b1e); box-shadow:0 12px 30px rgba(0,0,0,.45); transition:transform .4s ease; }
+    .photo:hover { transform:translateY(-6px) rotate(-1deg); }
+    .photo img { width:100%; height:100%; object-fit:cover; display:block; }
+    .photo .cap { position:absolute; left:0; right:0; bottom:0; padding:14px; background:linear-gradient(transparent,rgba(0,0,0,.8)); font-style:italic; text-align:left; }
+
+    .letter { max-width:680px; margin:0 auto; text-align:left; font-size:1.15rem; line-height:1.85; padding:40px 34px; border-radius:6px; background:linear-gradient(170deg,#fff4ef,#f6dfe6); color:#3a1a2b; box-shadow:0 20px 50px rgba(0,0,0,.5); transform:rotate(-.6deg); }
+    .letter .script { font-family:'Dancing Script',cursive; font-size:2rem; color:#b3335f; display:block; margin-bottom:14px; }
+
+    /* Planner */
+    .planner { max-width:820px; margin:0 auto; text-align:left; }
+    .step-title { font-family:'Dancing Script',cursive; font-size:2.2rem; color:var(--rose); margin:50px 0 6px; text-align:center; }
+    .step-note { text-align:center; opacity:.7; font-style:italic; margin-bottom:20px; }
+    .q { background:var(--card); border:1px solid rgba(255,255,255,.1); border-radius:20px; padding:22px 22px 18px; margin-bottom:18px; }
+    .q h3 { font-size:1.15rem; color:var(--gold); margin-bottom:4px; }
+    .q .kind { font-size:.8rem; opacity:.6; text-transform:uppercase; letter-spacing:.1em; margin-bottom:14px; display:block; }
+    .opts { display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+    .opt { position:relative; display:flex; flex-direction:column; gap:3px; padding:12px 14px; border-radius:14px; border:1px solid rgba(255,255,255,.14); cursor:pointer; transition:all .2s; background:rgba(0,0,0,.2); }
+    .opt:hover { border-color:var(--rose); }
+    .opt input { position:absolute; opacity:0; pointer-events:none; }
+    .opt:has(input:checked) { border-color:var(--gold); background:linear-gradient(135deg,rgba(255,107,154,.25),rgba(247,200,115,.18)); box-shadow:0 0 0 1px var(--gold) inset; }
+    .opt strong { font-weight:600; font-size:1rem; }
+    .opt small { opacity:.7; font-size:.82rem; line-height:1.35; }
+    .opt .tag { color:var(--gold); font-size:.8rem; }
+    .err { color:#ff9ab8; font-size:.9rem; margin-top:10px; min-height:1em; text-align:center; }
+
+    .budget { text-align:center; margin:18px auto 0; padding:12px 18px; border-radius:999px; display:inline-block; background:rgba(247,200,115,.12); border:1px solid rgba(247,200,115,.4); color:var(--gold); font-size:.95rem; }
+    .actions { text-align:center; margin-top:28px; }
+
+    /* Summary */
+    #summary { display:none; max-width:680px; margin:40px auto 0; text-align:left; background:linear-gradient(170deg,#fff4ef,#f6dfe6); color:#3a1a2b; border-radius:16px; padding:30px 28px; box-shadow:0 20px 50px rgba(0,0,0,.5); }
+    #summary h3 { font-family:'Dancing Script',cursive; font-size:2.2rem; color:#b3335f; margin-bottom:10px; text-align:center; }
+    #summary dt { font-weight:600; margin-top:12px; color:#7a2350; }
+    #summary dd { margin-left:0; line-height:1.6; }
+    #summary .actions { margin-top:22px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    #summary .btn.ghost { color:#7a2350; border-color:#7a2350; }
+
+    /* Restaurants section */
+    .rest-tabs { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:24px; }
+    .rest-tabs button { padding:9px 18px; border-radius:999px; border:1px solid rgba(247,200,115,.45); background:none; color:var(--cream); cursor:pointer; font:inherit; font-size:.95rem; }
+    .rest-tabs button.on { background:var(--gold); color:var(--night); border-color:var(--gold); }
+    .rest-list { display:grid; gap:14px; max-width:820px; margin:0 auto; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); text-align:left; }
+    .rest { background:var(--card); border:1px solid rgba(255,255,255,.1); border-radius:18px; padding:18px; }
+    .rest h4 { font-size:1.08rem; color:var(--gold); }
+    .rest .meta { font-size:.85rem; opacity:.75; margin-top:4px; line-height:1.4; }
+    .rest .stars { color:var(--gold); margin-top:8px; font-size:.9rem; }
+    .rest .note { font-size:.9rem; margin-top:8px; font-style:italic; opacity:.9; }
+    .rest-foot { font-size:.8rem; opacity:.55; margin-top:24px; font-style:italic; }
+
+    footer { padding:40px 20px 60px; text-align:center; opacity:.6; font-style:italic; }
+    #confetti { position:fixed; inset:0; pointer-events:none; z-index:20; }
+  </style>
+</head>
+<body>
+
+  <div class="heart-bg" id="hearts"></div>
+
+  <div id="intro">
+    <div class="envelope" id="envelope" role="button" aria-label="Open your surprise">💌</div>
+    <p>There's a little something waiting for you…</p>
+    <button class="btn" id="openBtn">Open your surprise</button>
+  </div>
+
+  <canvas id="confetti"></canvas>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <h1>Happy Birthday, Gauri</h1>
+      <p class="sub">26 November · a day made just for you</p>
+      <p class="scroll-hint">↓ scroll for more</p>
+    </section>
+
+    <!-- QUOTES -->
+    <section>
+      <h2>Words for you</h2>
+      <div class="quote-box"><p id="quote"></p></div>
+    </section>
+
+    <!-- GALLERY -->
+    <section>
+      <h2>Our moments</h2>
+      <div class="gallery" id="gallery"></div>
+    </section>
+
+    <!-- LETTER -->
+    <section>
+      <h2>A note from my heart</h2>
+      <div class="letter">
+        <span class="script">My dearest Gauri,</span>
+        <p>Every year I say the same thing, and every year it feels more true: you make ordinary days feel like the best ones. Your laugh, your kindness, the way you light up a room without even trying. I am so grateful that I get to share my life with you.</p>
+        <p style="margin-top:14px;">On your birthday, I hope every wish you have comes true, every smile you give comes back to you tenfold, and every day ahead is as beautiful as you are. Thank you for being you.</p>
+        <p class="script" style="font-size:1.8rem; margin-top:22px; text-align:right;">Forever yours ❤️</p>
+      </div>
+    </section>
+
+    <!-- PLANNER -->
+    <section id="planner-section">
+      <h2>Plan your birthday</h2>
+      <p class="lead">This day is yours. Pick what you love, and I'll make it happen.</p>
+      <div class="budget">Birthday day budget · ₹2,000</div>
+
+      <div class="planner" id="planner"></div>
+
+      <div class="actions">
+        <button class="btn" id="submitPlan">Lock in our plan 💕</button>
+        <p class="err" id="err"></p>
+      </div>
+
+      <div id="summary">
+        <h3>Our birthday plan 💕</h3>
+        <dl id="summaryList"></dl>
+        <div class="actions">
+          <a class="btn" id="sendBtn" target="_blank" rel="noopener">Send my picks to Jonah 💌</a>
+          <button class="btn ghost" id="editBtn">Change my picks</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- NAGPUR FOOD GUIDE -->
+    <section>
+      <h2>Nagpur food guide</h2>
+      <p class="lead">Popular spots in and around Nagpur. Ratings from Google, may change.</p>
+      <div class="rest-tabs" id="restTabs"></div>
+      <div class="rest-list" id="restList"></div>
+      <p class="rest-foot">Tip: check opening hours and book ahead for dinner.</p>
+    </section>
+
+    <footer>Made with love, just for you.</footer>
+  </main>
+
+  <script>
+    /* ==========================================================
+       CUSTOMISE HERE
+       ========================================================== */
+
+    const PHOTOS = [
+      { src: "photos/photo1.jpg", caption: "Radiant as always" },
+      { src: "photos/photo2.jpg", caption: "Sparkle queen" },
+      { src: "photos/photo3.jpg", caption: "Elegant evenings" },
+      { src: "photos/photo4.jpg", caption: "Pure grace" },
+      { src: "photos/photo5.jpg", caption: "Sweet moments" },
+      { src: "photos/photo6.jpg", caption: "Lost in thought, always lovely" }
+    ];
+
+    const QUOTES = [
+      "You are the reason I believe in magic.",
+      "Some people walk into your life and make everything feel like home.",
+      "Your heart is the most beautiful thing I have ever known.",
+      "Being with you is my favourite place to be.",
+      "Here's to another year of loving you more than yesterday."
+    ];
+
+    const WISHES = [
+      "May this year bring you everything your heart dreams of. 🌸",
+      "Happy birthday, my love. The world is brighter because you're in it. ✨",
+      "Wishing you laughter, love and a day as wonderful as you. 🎉"
+    ];
+
+    // Restaurants in Nagpur (Google ratings, approximate)
+    const RESTAURANTS = {
+      "Breakfast · Tarri Poha": [
+        { name: "Goldy's Tari Poha (Avenger Wale)", area: "Lakadganj", rating: 4.7, price: "₹", note: "Bike-stall style tarri poha with dahi samosa" },
+        { name: "Saburi Tarri Poha Misal Centre", area: "Ganeshpeth", rating: 4.4, price: "₹", note: "A Nagpur ritual. Go early" },
+        { name: "Vicky Chana Poha", area: "Mohan Nagar, near Kasturchand Park", rating: 4.3, price: "₹", note: "Famous spicy chana tarri poha" },
+        { name: "Ramji Shyamji Pohewale", area: "Chatrapati Nagar", rating: 4.2, price: "₹", note: "Legendary, very busy in the mornings" }
+      ],
+      "Saoji Lunch & Dinner": [
+        { name: "Amar Saoji Family Bhojanalaya", area: "Manewada Ring Road (near you!)", rating: 4.9, price: "₹₹", note: "Closest to home. Khima kaleji & sundri" },
+        { name: "Saoji Chulha Family Restaurant", area: "Juni Shukrawari", rating: 4.9, price: "₹₹", note: "Homestyle Saoji thali" },
+        { name: "Umredkar Saoji Restaurant", area: "Byramji Town", rating: 4.8, price: "₹₹", note: "Saoji mutton & chicken, veg options too" },
+        { name: "Saojee Gharanaa", area: "Subhash Nagar", rating: 4.8, price: "₹₹₹", note: "Saoji thali, nice ambience" },
+        { name: "Saoji King", area: "Trimurti Nagar", rating: 4.6, price: "₹₹", note: "Taste 3 gravy levels before ordering" }
+      ],
+      "Cafés & Desserts": [
+        { name: "The Magic Empire", area: "Bhole Nagar, Manewada", rating: 4.8, price: "₹₹", note: "Quiet, great for a birthday with snacks & ice cream" },
+        { name: "Ktas Cafe", area: "Hudkeshwar Rd", rating: 4.7, price: "₹₹", note: "Cozy, blueberry boba & Mexican pizza" },
+        { name: "The Collective Kitchen", area: "Manewada – Besa Rd", rating: 4.7, price: "₹₹", note: "Greenery & relaxed vibes" },
+        { name: "Back Benchers Cafe", area: "Manewada Chowk", rating: 4.7, price: "₹", note: "Budget friendly, caramel coffee & momos" },
+        { name: "Bella Ciao Cafe & Restro", area: "Besa-Pipla Rd, Manewada", rating: 4.6, price: "₹₹", note: "Known for dahi samosa" },
+        { name: "Little Owl Cafe", area: "Trimurti Nagar", rating: 4.3, price: "₹₹", note: "Aesthetic cafe, cosy & photogenic" }
+      ],
+      "Rooftop & Evening": [
+        { name: "Skylite Lounge", area: "Fortune Mall, Sitabuldi", rating: 4.9, price: "", note: "Rooftop with live music, great for dates" },
+        { name: "Penthaus Restaurant", area: "Hotel Brijinn, Ganeshpeth", rating: 4.5, price: "", note: "Rooftop, open till late" },
+        { name: "High Steaks", area: "Centre Point, Ramdaspeth", rating: 4.5, price: "", note: "Pool-side rooftop vibes, starters are the highlight" },
+        { name: "Tamtara Nagpur", area: "Dabha Rd, Wadi", rating: 4.4, price: "", note: "Huge space with photo walls & a play area" },
+        { name: "BellaVista Cafe & Skybar", area: "Civil Lines", rating: 4.2, price: "", note: "Continental food, lovely ambience" }
+      ]
+    };
+
+    // Her questions
+    // type: "single" = pick one (required), "multi" = pick many (optional)
+    const PLAN = [
+      { step: "About you", note: "Help me get to know you", groups: [
+        { id: "time", type: "single", title: "Your ideal start to the day?", options: ["Early sunrise ☀️", "Slow lazy morning 🛌", "Brunch hour 🥐"] },
+        { id: "vibe", type: "single", title: "How do you want to celebrate?", options: ["Cosy & intimate 🕯️", "Adventurous 🗺️", "Lively & fun 🎉"] },
+        { id: "happy", type: "multi", title: "What makes you happy? (pick all)", options: ["Music 🎵", "Photos 📸", "Shopping 🛍️", "Movies 🎬", "Good food 🍜", "Dancing 💃", "Nature 🌿", "Cafés ☕", "Sunsets 🌅"] },
+        { id: "cuisine", type: "multi", title: "Favourite foods? (pick all)", options: ["Saoji / Nagpuri", "Tarri poha", "Pizza & pasta", "Momos", "Biryani", "Boba & desserts", "Chaat"] }
+      ]},
+      { step: "Your birthday day", note: "Your picks, you decide", groups: [
+        { id: "breakfast", type: "single", title: "Breakfast spot", restaurantKey: "Breakfast · Tarri Poha" },
+        { id: "lunch", type: "single", title: "Lunch spot", restaurantKey: "Saoji Lunch & Dinner" },
+        { id: "cafe", type: "multi", title: "Cafés to visit (pick all)", restaurantKey: "Cafés & Desserts" },
+        { id: "dinner", type: "single", title: "Dinner spot", restaurantKey: "Rooftop & Evening" },
+        { id: "activities", type: "multi", title: "What should we do? (pick all)", options: ["Photoshoot 📸", "Movie 🎬", "Shopping 🛍️", "Sunset drive 🌅", "Lake walk 🌿", "Cake & candles 🎂", "Bowling / games 🎳"] }
+      ]},
+      { step: "Boyfriend's plans", note: "Things you'd love him to plan", groups: [
+        { id: "bfPlans", type: "multi", title: "What should Jonah plan for you? (pick all)", options: ["Flowers 💐", "Handwritten letter ✍️", "Surprise gift 🎁", "Surprise cake 🎂", "Dinner date 🕯️", "Movie night 🍿", "Surprise me, don't tell me!"] },
+        { id: "surpriseLevel", type: "single", title: "How much surprise do you want?", options: ["Full surprise, don't tell me 🤫", "Tell me a little in advance", "Just the highlights"] }
+      ]}
+    ];
+
+    const SAVE_KEY = "gauri-birthday-plan-v1";
+    const WHATSAPP_NUMBER = ""; // optional: e.g. "919xxxxxxxxx" (country code + number, no +). Leave blank to pick a contact.
+
+    /* ========================================================== */
+
+    // Floating hearts
+    const heartBg = document.getElementById("hearts");
+    for (let i = 0; i < 25; i++) {
+      const h = document.createElement("span");
+      h.textContent = Math.random() > 0.5 ? "♥" : "❤";
+      h.style.left = Math.random() * 100 + "%";
+      h.style.fontSize = 14 + Math.random() * 28 + "px";
+      h.style.animationDuration = 8 + Math.random() * 10 + "s";
+      h.style.animationDelay = -Math.random() * 15 + "s";
+      heartBg.appendChild(h);
+    }
+
+    // Gallery
+    const gallery = document.getElementById("gallery");
+    PHOTOS.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "photo";
+      const img = document.createElement("img");
+      img.src = p.src; img.alt = p.caption;
+      img.onerror = () => { img.style.display = "none"; };
+      const cap = document.createElement("div");
+      cap.className = "cap"; cap.textContent = p.caption;
+      card.append(img, cap);
+      gallery.appendChild(card);
+    });
+
+    // Quotes
+    const quoteEl = document.getElementById("quote");
+    let qi = 0;
+    quoteEl.textContent = QUOTES[0];
+    setInterval(() => {
+      quoteEl.classList.add("fade");
+      setTimeout(() => {
+        qi = (qi + 1) % QUOTES.length;
+        quoteEl.textContent = QUOTES[qi];
+        quoteEl.classList.remove("fade");
+      }, 600);
+    }, 4500);
+
+    // Intro
+    const intro = document.getElementById("intro");
+    function openSurprise() { intro.classList.add("hide"); burst(160); }
+    document.getElementById("openBtn").addEventListener("click", openSurprise);
+    document.getElementById("envelope").addEventListener("click", openSurprise);
+
+    /* ---------- Planner ---------- */
+    const plannerEl = document.getElementById("planner");
+    const errEl = document.getElementById("err");
+
+    function optionHTML(groupId, type, value, label, sub, tag) {
+      const input = type === "single"
+        ? `<input type="radio" name="${groupId}" value="${escapeAttr(value)}" />`
+        : `<input type="checkbox" name="${groupId}" value="${escapeAttr(value)}" />`;
+      return `<label class="opt">${input}<strong>${escapeHTML(label)}</strong>${sub ? `<small>${escapeHTML(sub)}</small>` : ""}${tag ? `<span class="tag">${escapeHTML(tag)}</span>` : ""}</label>`;
+    }
+
+    function renderPlanner() {
+      let html = "";
+      PLAN.forEach(section => {
+        html += `<h2 class="step-title">${escapeHTML(section.step)}</h2><p class="step-note">${escapeHTML(section.note)}</p>`;
+        section.groups.forEach(g => {
+          const kind = g.type === "single" ? "Pick one" : "Pick as many as you like";
+          let opts = "";
+          if (g.restaurantKey) {
+            opts = `<div class="opts">` + RESTAURANTS[g.restaurantKey].map(r =>
+              optionHTML(g.id, g.type, r.name, r.name, `${r.area} · ★ ${r.rating}${r.price ? " · " + r.price : ""}\n${r.note}`, "")
+            ).join("") + `</div>`;
+          } else {
+            opts = `<div class="opts">` + g.options.map(o => optionHTML(g.id, g.type, o, o, "", "")).join("") + `</div>`;
+          }
+          html += `<div class="q" data-group="${g.id}" data-type="${g.type}"><h3>${escapeHTML(g.title)}</h3><span class="kind">${kind}</span>${opts}</div>`;
+        });
+      });
+      plannerEl.innerHTML = html;
+      // Show address line in breakfast/lunch descriptions with line breaks
+      plannerEl.querySelectorAll(".opt small").forEach(s => { s.style.whiteSpace = "pre-line"; });
+      restoreSaved();
+    }
+
+    function escapeHTML(s) { return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c])); }
+    function escapeAttr(s) { return escapeHTML(s); }
+
+    function collectPicks() {
+      const picks = {};
+      PLAN.forEach(s => s.groups.forEach(g => {
+        const checked = [...plannerEl.querySelectorAll(`input[name="${g.id}"]:checked`)].map(i => i.value);
+        picks[g.id] = g.type === "single" ? (checked[0] || null) : checked;
+      }));
+      return picks;
+    }
+
+    function restoreSaved() {
+      const saved = JSON.parse(localStorage.getItem(SAVE_KEY) || "null");
+      if (!saved) return;
+      Object.entries(saved).forEach(([id, val]) => {
+        const vals = Array.isArray(val) ? val : (val ? [val] : []);
+        vals.forEach(v => {
+          plannerEl.querySelectorAll(`input[name="${id}"]`).forEach(i => { if (i.value === v) i.checked = true; });
+        });
+      });
+    }
+
+    const GROUP_LABELS = {};
+    PLAN.forEach(s => s.groups.forEach(g => GROUP_LABELS[g.id] = g.title));
+
+    function buildSummary(picks) {
+      const rows = [];
+      PLAN.forEach(s => s.groups.forEach(g => {
+        const v = picks[g.id];
+        const text = Array.isArray(v) ? (v.length ? v.join(", ") : "—") : (v || "—");
+        rows.push(`<dt>${escapeHTML(g.title.replace(/\s*\(pick all\)\s*|\?$/g, ""))}</dt><dd>${escapeHTML(text)}</dd>`);
+      }));
+      return rows.join("");
+    }
+
+    function buildMessage(picks) {
+      const lines = ["Happy Birthday plan for Gauri 💖", ""];
+      PLAN.forEach(s => {
+        lines.push(`— ${s.step} —`);
+        s.groups.forEach(g => {
+          const v = picks[g.id];
+          const text = Array.isArray(v) ? (v.length ? v.join(", ") : "none") : (v || "none");
+          lines.push(`${g.title.replace(/\s*\(pick all\)\s*/g, "")} ${text}`);
+        });
+        lines.push("");
+      });
+      return lines.join("\n");
+    }
+
+    function showSummary(picks) {
+      const sumEl = document.getElementById("summary");
+      document.getElementById("summaryList").innerHTML = buildSummary(picks);
+      const msg = encodeURIComponent(buildMessage(picks));
+      const base = WHATSAPP_NUMBER ? `https://wa.me/${WHATSAPP_NUMBER}` : "https://wa.me/";
+      document.getElementById("sendBtn").href = `${base}?text=${msg}`;
+      sumEl.style.display = "block";
+      sumEl.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    // Persist picks on every change
+    plannerEl.addEventListener("change", () => {
+      localStorage.setItem(SAVE_KEY, JSON.stringify(collectPicks()));
+      errEl.textContent = "";
+    });
+
+    document.getElementById("submitPlan").addEventListener("click", () => {
+      const picks = collectPicks();
+      const missing = [];
+      PLAN.forEach(s => s.groups.forEach(g => {
+        if (g.type === "single" && !picks[g.id]) missing.push(g.title);
+      }));
+      if (missing.length) {
+        errEl.textContent = "Please pick one for: " + missing.slice(0, 2).join(" · ") + (missing.length > 2 ? " …" : "");
+        return;
+      }
+      localStorage.setItem(SAVE_KEY, JSON.stringify(picks));
+      showSummary(picks);
+      burst(120);
+    });
+
+    document.getElementById("editBtn").addEventListener("click", () => {
+      document.getElementById("summary").style.display = "none";
+      document.getElementById("planner-section").scrollIntoView({ behavior: "smooth" });
+    });
+
+    renderPlanner();
+
+    /* ---------- Restaurants guide ---------- */
+    const tabsEl = document.getElementById("restTabs");
+    const listEl = document.getElementById("restList");
+    const keys = Object.keys(RESTAURANTS);
+    function showTab(k) {
+      tabsEl.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.k === k));
+      listEl.innerHTML = RESTAURANTS[k].map(r => `
+        <div class="rest">
+          <h4>${escapeHTML(r.name)}</h4>
+          <div class="meta">${escapeHTML(r.area)}${r.price ? " · " + escapeHTML(r.price) : ""}</div>
+          <div class="stars">★ ${r.rating}</div>
+          <div class="note">${escapeHTML(r.note)}</div>
+        </div>`).join("");
+    }
+    keys.forEach((k, i) => {
+      const b = document.createElement("button");
+      b.textContent = k; b.dataset.k = k;
+      b.addEventListener("click", () => showTab(k));
+      tabsEl.appendChild(b);
+    });
+    showTab(keys[0]);
+
+    /* ---------- Wish + confetti ---------- */
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+    resize();
+    window.addEventListener("resize", resize);
+
+    let particles = [];
+    const colors = ["#ff6b9a", "#f7c873", "#ffffff", "#ff9ec0", "#e04f85"];
+    function burst(n) {
+      for (let i = 0; i < n; i++) {
+        particles.push({
+          x: innerWidth / 2 + (Math.random() - 0.5) * 200,
+          y: innerHeight / 2,
+          vx: (Math.random() - 0.5) * 14,
+          vy: -Math.random() * 14 - 4,
+          size: 5 + Math.random() * 7,
+          rot: Math.random() * Math.PI,
+          vr: (Math.random() - 0.5) * 0.3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          life: 200
+        });
+      }
+    }
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.vy += 0.3; p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.life--;
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+        ctx.restore();
+      });
+      particles = particles.filter(p => p.life > 0 && p.y < canvas.height + 20);
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>
