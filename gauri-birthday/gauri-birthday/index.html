@@ -108,7 +108,7 @@
     <button class="btn" id="openBtn">Open your surprise</button>
   </div>
 
-  <audio id="backgroundMusic" loop preload="auto">
+  <audio id="backgroundMusic" loop preload="auto" autoplay muted>
     <source src="cobblestone-swing.mp3" type="audio/mpeg" />
   </audio>
   <button id="musicToggle" type="button" aria-label="Pause music" title="Pause music">♫</button>
@@ -314,6 +314,7 @@
     const music = document.getElementById("backgroundMusic");
     const musicToggle = document.getElementById("musicToggle");
     music.volume = 0.35;
+    music.play().catch(() => {});
 
     function updateMusicButton() {
       const isPlaying = !music.paused;
@@ -324,6 +325,7 @@
 
     function openSurprise() {
       intro.classList.add("hide");
+      music.muted = false;
       music.play().then(updateMusicButton).catch(updateMusicButton);
       burst(160);
     }
@@ -331,7 +333,11 @@
     document.getElementById("envelope").addEventListener("click", openSurprise);
     musicToggle.addEventListener("click", () => {
       if (music.paused) {
+        music.muted = false;
         music.play().then(updateMusicButton).catch(updateMusicButton);
+      } else if (music.muted) {
+        music.muted = false;
+        updateMusicButton();
       } else {
         music.pause();
         updateMusicButton();
