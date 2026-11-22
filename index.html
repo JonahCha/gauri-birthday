@@ -281,7 +281,8 @@
       ]}
     ];
 
-    const SAVE_KEY = "gauri-birthday-plan-v1";
+    const LEGACY_SAVE_KEY = "gauri-birthday-plan-v1";
+    localStorage.removeItem(LEGACY_SAVE_KEY);
     const WHATSAPP_NUMBER = ""; // optional: e.g. "919xxxxxxxxx" (country code + number, no +). Leave blank to pick a contact.
 
     /* ========================================================== */
@@ -348,7 +349,7 @@
       plannerEl.innerHTML = html;
       // Show address line in breakfast/lunch descriptions with line breaks
       plannerEl.querySelectorAll(".opt small").forEach(s => { s.style.whiteSpace = "pre-line"; });
-      restoreSaved();
+      resetPlanner();
     }
 
     function escapeHTML(s) { return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c])); }
@@ -363,16 +364,15 @@
       return picks;
     }
 
-    function restoreSaved() {
-      const saved = JSON.parse(localStorage.getItem(SAVE_KEY) || "null");
-      if (!saved) return;
-      Object.entries(saved).forEach(([id, val]) => {
-        const vals = Array.isArray(val) ? val : (val ? [val] : []);
-        vals.forEach(v => {
-          plannerEl.querySelectorAll(`input[name="${id}"]`).forEach(i => { if (i.value === v) i.checked = true; });
-        });
-      });
+    function resetPlanner() {
+      plannerEl.querySelectorAll("input[type='radio'], input[type='checkbox']").forEach(i => { i.checked = false; });
+      document.getElementById("summary").style.display = "none";
+      errEl.textContent = "";
     }
+
+    window.addEventListener("pageshow", event => {
+      resetPlanner();
+    });
 
     const GROUP_LABELS = {};
     PLAN.forEach(s => s.groups.forEach(g => GROUP_LABELS[g.id] = g.title));
@@ -411,9 +411,7 @@
       sumEl.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 
-    // Persist picks on every change
     plannerEl.addEventListener("change", () => {
-      localStorage.setItem(SAVE_KEY, JSON.stringify(collectPicks()));
       errEl.textContent = "";
     });
 
@@ -427,7 +425,6 @@
         errEl.textContent = "Please pick one for: " + missing.slice(0, 2).join(" · ") + (missing.length > 2 ? " …" : "");
         return;
       }
-      localStorage.setItem(SAVE_KEY, JSON.stringify(picks));
       showSummary(picks);
       burst(120);
     });
