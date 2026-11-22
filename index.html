@@ -26,9 +26,6 @@
     .btn:hover:not(:disabled) { transform:scale(1.04); }
     .btn:disabled { cursor:not-allowed; opacity:.45; filter:grayscale(.35); }
     .btn.ghost { background:none; color:var(--gold); border:1px solid rgba(247,200,115,.5); box-shadow:none; }
-    #musicToggle { position:fixed; right:18px; bottom:18px; z-index:35; width:46px; height:46px; border-radius:50%; border:1px solid rgba(247,200,115,.5); background:rgba(18,5,12,.88); color:var(--gold); box-shadow:0 8px 24px rgba(0,0,0,.35); font-size:1.1rem; }
-    #musicToggle:hover { transform:scale(1.06); }
-
     main { position:relative; z-index:1; }
     section { padding:80px 20px; text-align:center; }
     h2 { font-family:'Dancing Script',cursive; font-size:clamp(2.2rem,7vw,3.4rem); color:var(--gold); margin-bottom:12px; }
@@ -116,7 +113,6 @@
   <audio id="backgroundMusic" loop preload="auto" autoplay muted>
     <source src="gauri-birthday/gauri-birthday/cobblestone-swing.mp3" type="audio/mpeg" />
   </audio>
-  <button id="musicToggle" type="button" aria-label="Unmute music" title="Unmute music">♪</button>
   <canvas id="confetti"></canvas>
   <div id="openModal" role="dialog" aria-modal="true">
     <div class="modal-card">
@@ -332,40 +328,17 @@
     const openBtn = document.getElementById("openBtn");
     const envelope = document.getElementById("envelope");
     const music = document.getElementById("backgroundMusic");
-    const musicToggle = document.getElementById("musicToggle");
     music.volume = 0.35;
-
-    function updateMusicButton() {
-      const isPlaying = !music.paused;
-      musicToggle.textContent = isPlaying ? (music.muted ? "♪" : "♫") : "♪";
-      musicToggle.setAttribute("aria-label", music.muted ? "Unmute music" : "Pause music");
-      musicToggle.setAttribute("title", music.muted ? "Unmute music" : "Pause music");
-    }
-
-    music.play().catch(() => {});
-    updateMusicButton();
 
     function openSurprise() {
       if (LOCK_ENABLED && Date.now() < new Date(BIRTHDAY).getTime()) return;
       intro.classList.add("hide");
       music.muted = false;
-      music.play().then(updateMusicButton).catch(updateMusicButton);
+      music.play().catch(error => console.error("Background music could not be played:", error));
       burst(160);
     }
     openBtn.addEventListener("click",openSurprise);
     envelope.addEventListener("click",openSurprise);
-    musicToggle.addEventListener("click", () => {
-      if (music.paused) {
-        music.muted = false;
-        music.play().then(updateMusicButton).catch(updateMusicButton);
-      } else if (music.muted) {
-        music.muted = false;
-        updateMusicButton();
-      } else {
-        music.pause();
-        updateMusicButton();
-      }
-    });
 
     // Scratch card
     document.getElementById("scratchMessage").textContent = SCRATCH_MESSAGE;
